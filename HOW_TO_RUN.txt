@@ -1,0 +1,61 @@
+========================================
+HOW TO RUN THE E-WASTE REPORTING SYSTEM
+========================================
+
+SUPER EASY METHOD (Recommended for beginners):
+----------------------------------------------
+
+1. DOUBLE-CLICK the file named "START_PROJECT.bat"
+   - A black window will appear
+   - You'll see a message about the server starting
+
+2. OPEN YOUR WEB BROWSER (Chrome, Firefox, Edge, etc.)
+   - Type this in the address bar: localhost:3000
+   - Press Enter
+
+3. YOU'RE DONE! 
+   - You should see the E-Waste Reporting System demo
+   - Click the buttons to explore different features
+
+
+ALTERNATIVE METHOD (Using Command Line):
+----------------------------------------
+
+1. Open Command Prompt or Terminal
+   - On Windows: Press Windows Key + R, type "cmd", press Enter
+
+2. Navigate to the project folder:
+   cd C:\path\to\rygneco-reporting-engine
+
+3. Run the demo:
+   node run-demo.js
+
+4. Open your browser and go to: http://localhost:3000
+
+
+WHAT YOU CAN DO:
+-----------------
+• View sample reports
+• Click "View Quarterly Report" to see different report types
+• Click "Print Report" to print or save as PDF
+• Explore the interactive elements
+
+
+TO STOP THE SERVER:
+-------------------
+• Press Ctrl + C in the black window
+• Or simply close the window
+
+
+TROUBLESHOOTING:
+----------------
+If it doesn't work:
+1. Make sure you're in the right folder
+2. Try running: npm install (one time only)
+3. Then try again with: node run-demo.js
+
+
+NEED HELP?
+----------
+The system is already built and ready to use!
+Just follow Step 1 above - double-click START_PROJECT.bat 

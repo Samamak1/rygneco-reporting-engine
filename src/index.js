@@ -20,15 +20,20 @@ export class ReportingModule {
   constructor(config = {}) {
     this.config = {
       clientId: config.clientId || 'default',
-      clientName: config.clientName || 'Demo Client',
-      branding: config.branding || { companyName: 'RYGNECO', logo: '🌱' },
+      clientName: config.clientName || 'Fictional Sample Organization',
+      branding: config.branding || { companyName: 'RYGNECO DEMONSTRATION', logo: 'RYG' },
+      demonstrationOnly: true,
       ...config
     };
     
     // Initialize core components
     this.dataProcessor = new DataProcessor(this.config);
     this.templateEngine = new TemplateEngine(this.config);
-    this.reportGenerator = new ReportGenerator(this.config, this.dataProcessor, this.templateEngine);
+    this.reportGenerator = new ReportGenerator({
+      config: this.config,
+      dataProcessor: this.dataProcessor,
+      templateEngine: this.templateEngine
+    });
     
     // Initialize UI components
     this.customizer = new ReportCustomizer(this.config);
@@ -71,7 +76,8 @@ export class ReportingModule {
     // Create customizer HTML
     container.innerHTML = `
       <div class="report-customizer">
-        <h3>Customize Your Report</h3>
+        <h3>Customize a Demonstration Report</h3>
+        <p><strong>FICTIONAL SAMPLE DATA - NOT FOR EXTERNAL USE</strong></p>
         
         <div class="customizer-section">
           <h4>Report Type</h4>
@@ -102,7 +108,7 @@ export class ReportingModule {
             <div class="section-option selected">
               <label>
                 <input type="checkbox" name="sections" value="environmentalImpact" checked>
-                Environmental Impact
+                Methodology Review Placeholder
               </label>
             </div>
             <div class="section-option">
@@ -114,19 +120,19 @@ export class ReportingModule {
             <div class="section-option">
               <label>
                 <input type="checkbox" name="sections" value="financialImpact">
-                Financial Impact
+                Value Record Review Placeholder
               </label>
             </div>
             <div class="section-option">
               <label>
                 <input type="checkbox" name="sections" value="csrImpact">
-                CSR Impact
+                Stakeholder Notes Placeholder
               </label>
             </div>
             <div class="section-option">
               <label>
                 <input type="checkbox" name="sections" value="compliance">
-                Compliance Status
+                Governance Review
               </label>
             </div>
             <div class="section-option">
@@ -341,4 +347,4 @@ export { ReportingModule };
 // Export for CommonJS (if needed)
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = { ReportingModule };
-} 
+}

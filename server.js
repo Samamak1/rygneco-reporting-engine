@@ -1,5 +1,5 @@
 /**
- * Simple server to run the E-Waste Reporting Demo
+ * Simple server for the sanitized reporting demonstration.
  */
 
 const http = require('http');
@@ -7,53 +7,37 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 9000;
-
+const root = path.resolve('.');
 const mimeTypes = {
-  '.html': 'text/html',
-  '.css': 'text/css',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpg',
-  '.gif': 'image/gif',
-  '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon'
+  '.html': 'text/html; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.png': 'image/png'
 };
 
 const server = http.createServer((req, res) => {
-  let filePath = '.' + req.url;
-  if (filePath === './') {
-    filePath = './demo.html';
-  } else if (filePath === './full-e-waste-report.html') {
-    filePath = './full-e-waste-report.html';
-  }
+  const requestedPath = req.url === '/' ? 'demo.html' : req.url.replace(/^\//, '');
+  const filePath = path.resolve(root, requestedPath);
 
-  const extname = String(path.extname(filePath)).toLowerCase();
-  const contentType = mimeTypes[extname] || 'application/octet-stream';
+  if (!filePath.startsWith(root)) {
+    res.writeHead(403);
+    res.end('Forbidden');
+    return;
+  }
 
   fs.readFile(filePath, (error, content) => {
     if (error) {
-      if (error.code === 'ENOENT') {
-        res.writeHead(404);
-        res.end('File not found');
-      } else {
-        res.writeHead(500);
-        res.end('Server error: ' + error.code);
-      }
-    } else {
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(content, 'utf-8');
+      res.writeHead(error.code === 'ENOENT' ? 404 : 500);
+      res.end(error.code === 'ENOENT' ? 'File not found' : 'Server error');
+      return;
     }
+
+    res.writeHead(200, { 'Content-Type': mimeTypes[path.extname(filePath)] || 'application/octet-stream' });
+    res.end(content);
   });
 });
 
 server.listen(PORT, () => {
-  console.log(`
-🌱 E-Waste Reporting System Demo Server
-=====================================
-Server is running at: http://localhost:${PORT}
-
-Open your browser and go to the link above to view the demo.
-Press Ctrl+C to stop the server.
-  `);
-}); 
+  console.log(`Sanitized reporting demonstration available at http://localhost:${PORT}`);
+});

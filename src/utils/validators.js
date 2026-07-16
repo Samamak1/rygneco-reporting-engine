@@ -136,13 +136,12 @@ export function validateFinancialData(financial) {
   const errors = [];
   const warnings = [];
 
-  // Check for negative values where not expected
+  // Generic source-record checks only; this prototype does not calculate outcomes.
   if (financial.serviceFees < 0) errors.push('Service fees cannot be negative');
-  if (financial.taxDeductions < 0) errors.push('Tax deductions cannot be negative');
-  
-  // Check for reasonable values
-  if (financial.taxDeductions > financial.netBenefit * 2) {
-    warnings.push('Tax deductions seem unusually high compared to net benefit');
+  if (financial.documentedValue < 0) errors.push('Documented value cannot be negative');
+
+  if (financial.documentedValue && !financial.sourceReference) {
+    warnings.push('Documented value requires a source reference');
   }
 
   return {
@@ -263,4 +262,4 @@ export function validateFileUpload(file, options = {}) {
     isValid: errors.length === 0,
     errors
   };
-} 
+}

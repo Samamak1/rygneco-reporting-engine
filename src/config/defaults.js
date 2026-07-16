@@ -11,7 +11,8 @@ export const defaults = {
   
   // Client Configuration
   clientId: null,
-  clientName: 'Client',
+  clientName: 'Fictional Sample Organization',
+  demonstrationOnly: true,
   
   // UI Configuration
   theme: 'default',
@@ -153,12 +154,13 @@ export const defaults = {
   
   // Branding
   branding: {
-    companyName: 'RYGNECO',
+    companyName: 'RYGNECO DEMONSTRATION',
     logo: '🌱',
     primaryColor: '#27ae60',
     secondaryColor: '#3498db',
     fontFamily: 'Arial, sans-serif',
-    showWatermark: false
+    showWatermark: true,
+    watermarkText: 'DEMONSTRATION / FICTIONAL SAMPLE DATA'
   },
   
   // Feature Flags
@@ -318,4 +320,4 @@ function isValidUrl(string) {
 }
 
 // Default export
-export default defaults; 
+export default defaults;

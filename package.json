@@ -1,7 +1,8 @@
 {
   "name": "ewaste-reporting-module",
   "version": "1.0.0",
-  "description": "E-waste management reporting module for customer dashboard integration",
+  "description": "Sanitized product-program prototype for fictional e-waste workflow reporting",
+  "private": true,
   "main": "src/index.js",
   "scripts": {
     "start": "node server.js",
@@ -14,7 +15,7 @@
   },
   "keywords": ["e-waste", "reporting", "dashboard", "sustainability"],
   "author": "RYGNeco",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "dependencies": {
     "handlebars": "^4.7.8",
     "chart.js": "^4.4.0",
@@ -38,4 +39,4 @@
     "./styles": "./dist/styles.css",
     "./templates": "./dist/templates/"
   }
-} 
+}

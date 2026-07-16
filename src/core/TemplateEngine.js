@@ -127,8 +127,8 @@ export class TemplateEngine {
     // Footer partial
     this.handlebars.registerPartial('footer', `
       <div class="footer">
-        {{branding.companyName}} | {{#each compliance.certifications}}{{this}}{{#unless @last}} | {{/unless}}{{/each}}<br>
-        {{#if confidential}}This report contains confidential information. Distribution limited to authorized personnel only.{{/if}}
+        <strong>DEMONSTRATION / FICTIONAL SAMPLE DATA - NOT FOR EXTERNAL USE</strong><br>
+        {{branding.companyName}} product-program prototype
       </div>
     `);
 
@@ -188,8 +188,19 @@ export class TemplateEngine {
         <link rel="stylesheet" href="../styles/base.css">
         <link rel="stylesheet" href="../styles/components.css">
         <link rel="stylesheet" href="../styles/print.css" media="print">
+        <style>
+          .demonstration-notice {
+            margin: 16px;
+            padding: 12px;
+            border: 2px solid #d59b00;
+            background: #fff8dc;
+            text-align: center;
+            font-weight: 700;
+          }
+        </style>
       </head>
       <body>
+        <div class="demonstration-notice">DEMONSTRATION / FICTIONAL SAMPLE DATA - NOT AN OPERATING OR CUSTOMER REPORT</div>
         {{#each sections}}
           {{{this}}}
         {{/each}}
@@ -262,66 +273,20 @@ export class TemplateEngine {
       </div>
     `);
 
-    // Environmental Impact section template
+    // Governed-data placeholder. The prototype does not calculate or assert impact.
     this.templates.set('section-environmentalImpact', `
       <div class="page">
         <div class="page-number">Page {{pageNumber}} of {{totalPages}}</div>
         {{> header}}
-        
+
         <div class="section">
-          <h3>{{icon 'environmental'}} Environmental Impact Analysis</h3>
-          
-          <div class="two-column">
-            <div>
-              <h4>Carbon Footprint Reduction</h4>
-              {{> dataTable headers=carbonHeaders rows=data.carbonImpact}}
-              
-              {{#if data.achievementMilestone}}
-                <div class="alert-box">
-                  <div class="alert-title">{{icon 'success'}} Achievement Milestone</div>
-                  {{data.achievementMilestone}}
-                </div>
-              {{/if}}
-            </div>
-            
-            <div>
-              <h4>Resource Recovery</h4>
-              <div class="info-box">
-                {{#if data.preciousMetals}}
-                  <strong>Precious Metals Recovered:</strong>
-                  <ul>
-                    {{#each data.preciousMetals}}
-                      <li>{{metal}}: {{amount}} ({{formatCurrency value}})</li>
-                    {{/each}}
-                  </ul>
-                {{/if}}
-                
-                {{#if data.criticalMaterials}}
-                  <strong>Critical Materials:</strong>
-                  <ul>
-                    {{#each data.criticalMaterials}}
-                      <li>{{material}}: {{amount}}</li>
-                    {{/each}}
-                  </ul>
-                {{/if}}
-              </div>
-            </div>
+          <h3>Governed Methodology Placeholder</h3>
+          <div class="info-box">
+            {{data.notice}}
+            No impact value may be displayed without a documented source, boundary, methodology version, reviewer, and approval status.
           </div>
-          
-          {{#if data.savingsMetrics}}
-            <h4>Water & Energy Savings</h4>
-            <div class="impact-grid">
-              {{#each data.savingsMetrics}}
-                <div class="impact-card">
-                  <div class="impact-icon">{{icon}}</div>
-                  <div style="font-weight: bold;">{{value}}</div>
-                  <div style="font-size: 12px;">{{description}}</div>
-                </div>
-              {{/each}}
-            </div>
-          {{/if}}
         </div>
-        
+
         {{> footer}}
       </div>
     `);
@@ -334,7 +299,20 @@ export class TemplateEngine {
    * @returns {string} Rendered HTML
    */
   render(templateName, data) {
-    const template = this.templates.get(templateName);
+    let template = this.templates.get(templateName);
+    if (!template && templateName.startsWith('section-')) {
+      template = `
+        <div class="page">
+          {{> header}}
+          <div class="section">
+            <h3>Demonstration Section Placeholder</h3>
+            <p>{{data.notice}}</p>
+            <p><strong>FICTIONAL SAMPLE DATA - NOT FOR EXTERNAL USE</strong></p>
+          </div>
+          {{> footer}}
+        </div>
+      `;
+    }
     if (!template) {
       throw new Error(`Template not found: ${templateName}`);
     }
@@ -402,4 +380,4 @@ export class TemplateEngine {
   updateConfig(newConfig) {
     this.config = { ...this.config, ...newConfig };
   }
-} 
+}
